@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint --ignore-pattern src/components/* src/",
+    "lint": "eslint --fix --ignore-pattern src/components/* src/",
     "preview": "vite preview"
   },
   "dependencies": {
