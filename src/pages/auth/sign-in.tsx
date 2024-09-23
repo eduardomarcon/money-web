@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -21,6 +22,8 @@ export function SignIn() {
 
   async function handleSignIn(data: SignInForm) {
     console.log(data)
+
+    toast.success('we have sent an authentication link to your email')
   }
 
   return (
