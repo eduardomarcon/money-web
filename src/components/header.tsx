@@ -1,6 +1,7 @@
 import { DollarSign, Home, Wallet } from 'lucide-react'
 
 import { NavLink } from '@/components/nav-link.tsx'
+import { ThemeToggle } from '@/components/theme/theme-toggle.tsx'
 import { Separator } from '@/components/ui/separator.tsx'
 
 export function Header() {
@@ -21,6 +22,9 @@ export function Header() {
             finances
           </NavLink>
         </nav>
+        <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle />
+        </div>
       </div>
     </div>
   )

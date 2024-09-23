@@ -4,14 +4,17 @@ import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
+import { ThemeProvider } from '@/components/theme/theme-provider.tsx'
 import { router } from '@/routes'
 
 export function App() {
   return (
     <HelmetProvider>
-      <Helmet titleTemplate="%s | my.money" />
-      <Toaster richColors />
-      <RouterProvider router={router} />
+      <ThemeProvider storageKey="mymoney-theme" defaultTheme="dark">
+        <Helmet titleTemplate="%s | my.money" />
+        <Toaster richColors />
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </HelmetProvider>
   )
 }
