@@ -18,5 +18,6 @@ export default [...compat.extends("@rocketseat/eslint-config/react"), {
     },
     rules: {
         "simple-import-sort/imports": "error",
+        "@typescript-eslint/no-unsafe-declaration-merging": "off"
     },
 }];
