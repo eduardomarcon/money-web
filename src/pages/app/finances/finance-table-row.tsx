@@ -1,7 +1,7 @@
 import { Search, X } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogTrigger } from '@/components/ui/dialog.tsx'
+import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { FinanceDetails } from '@/pages/app/finances/finance-details'
 

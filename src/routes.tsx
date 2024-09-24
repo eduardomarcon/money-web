@@ -1,11 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom'
 
-import { AppLayout } from '@/pages/_layouts/app.tsx'
-import { AuthLayout } from '@/pages/_layouts/auth.tsx'
-import { Dashboard } from '@/pages/app/dashboard.tsx'
-import { Finances } from '@/pages/app/finances/finances.tsx'
-import { SignIn } from '@/pages/auth/sign-in.tsx'
-import { SignUp } from '@/pages/auth/sign-up.tsx'
+import { AppLayout } from '@/pages/_layouts/app'
+import { AuthLayout } from '@/pages/_layouts/auth'
+import { Dashboard } from '@/pages/app/dashboard'
+import { Finances } from '@/pages/app/finances/finances'
+import { SignIn } from '@/pages/auth/sign-in'
+import { SignUp } from '@/pages/auth/sign-up'
 
 export const router = createBrowserRouter([
   {
