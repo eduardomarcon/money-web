@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 
+import { DailyChart } from '@/pages/app/dashboard/daily-chart.tsx'
 import { DailyValuesCard } from '@/pages/app/dashboard/daily-values-card'
 import { MonthlyDebtsCard } from '@/pages/app/dashboard/monthly-debts-card'
 import { MonthlyIncomeCard } from '@/pages/app/dashboard/monthly-income-card'
@@ -17,6 +18,10 @@ export function Dashboard() {
           <MonthlyValuesCard />
           <MonthlyIncomeCard />
           <MonthlyDebtsCard />
+        </div>
+
+        <div className="grid grid-cols-9 gap-4">
+          <DailyChart />
         </div>
       </div>
     </>
