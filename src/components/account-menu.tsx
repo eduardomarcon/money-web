@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { ChevronDown, LogOut, UserCog } from 'lucide-react'
 
 import { getProfile } from '@/api/get-profile'
+import { Skeleton } from '@/components/ui/skeleton.tsx'
 
 import { Button } from './ui/button'
 import {
@@ -14,7 +15,7 @@ import {
 } from './ui/dropdown-menu'
 
 export function AccountMenu() {
-  const { data: profile } = useQuery({
+  const { data: profile, isLoading } = useQuery({
     queryKey: ['profile'],
     queryFn: getProfile,
   })
@@ -33,10 +34,19 @@ export function AccountMenu() {
 
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="flex flex-col">
-          <span>{profile?.name}</span>
-          <span className="text-xs font-normal text-muted-foreground">
-            {profile?.email}
-          </span>
+          {isLoading ? (
+            <div className="space-y-1.5">
+              <Skeleton className="h-4 w-32" />
+              <Skeleton className="h-3 w-24" />
+            </div>
+          ) : (
+            <>
+              <span>{profile?.name}</span>
+              <span className="text-xs font-normal text-muted-foreground">
+                {profile?.email}
+              </span>
+            </>
+          )}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
