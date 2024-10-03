@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 const signUpForm = z.object({
-  username: z.string(),
   name: z.string(),
   phone: z.string(),
   email: z.string().email(),
@@ -61,11 +60,6 @@ export function SignUp() {
           </div>
 
           <form className="space-y-4" onSubmit={handleSubmit(handleSignUp)}>
-            <div className="space-y-2">
-              <Label htmlFor="username">username</Label>
-              <Input id="username" type="text" {...register('username')} />
-            </div>
-
             <div className="space-y-2">
               <Label htmlFor="name">name</Label>
               <Input id="name" type="text" {...register('name')} />
