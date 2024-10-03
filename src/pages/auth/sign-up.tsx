@@ -33,7 +33,7 @@ export function SignUp() {
       toast.success('account created successfully', {
         action: {
           label: 'login',
-          onClick: () => navigate('/sign-in'),
+          onClick: () => navigate(`/sign-in?email=${data.email}`),
         },
       })
     } catch (error) {
