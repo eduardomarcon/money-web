@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
+import { useSearchParams } from 'react-router-dom'
+import { z } from 'zod'
 
-import { getTransactions } from '@/api/get-transactions.ts'
+import { getTransactions } from '@/api/get-transactions'
 import { Pagination } from '@/components/pagination'
 import {
   Table,
@@ -14,10 +16,25 @@ import { FinanceTableFilters } from '@/pages/app/finances/finance-table-filters'
 import { FinanceTableRow } from '@/pages/app/finances/finance-table-row'
 
 export function Finances() {
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const pageIndex = z.coerce
+    .number()
+    .transform((page) => page - 1)
+    .parse(searchParams.get('page') ?? '1')
+
   const { data: result } = useQuery({
-    queryKey: ['orders'],
-    queryFn: getTransactions,
+    queryKey: ['transactions', pageIndex],
+    queryFn: () => getTransactions({ pageIndex }),
   })
+
+  function handlePaginate(pageIndex: number) {
+    setSearchParams((state) => {
+      state.set('page', (pageIndex + 1).toString())
+
+      return state
+    })
+  }
 
   return (
     <>
@@ -50,7 +67,14 @@ export function Finances() {
               </TableBody>
             </Table>
           </div>
-          <Pagination pageIndex={0} totalCount={105} perPage={10} />
+          {result && (
+            <Pagination
+              onPageChange={handlePaginate}
+              pageIndex={result.meta.pageIndex}
+              totalCount={result.meta.totalCount}
+              perPage={result.meta.perPage}
+            />
+          )}
         </div>
       </div>
     </>

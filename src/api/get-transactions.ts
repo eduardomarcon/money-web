@@ -1,5 +1,9 @@
 import { api } from '@/lib/axios'
 
+export interface GetTransactionsQuery {
+  pageIndex?: number | null
+}
+
 export interface GetTransactionsResponse {
   transactions: {
     transactionId: string
@@ -16,10 +20,10 @@ export interface GetTransactionsResponse {
   }
 }
 
-export async function getTransactions() {
+export async function getTransactions({ pageIndex }: GetTransactionsQuery) {
   const response = await api.get<GetTransactionsResponse>('/transactions', {
     params: {
-      pageIndex: 0,
+      pageIndex,
     },
   })
 
