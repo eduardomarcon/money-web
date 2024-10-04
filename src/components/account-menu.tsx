@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import { ChevronDown, LogOut, UserCog } from 'lucide-react'
 
 import { getProfile } from '@/api/get-profile'
-import { StoreProfileDialog } from '@/components/store-profile-dialog.tsx'
-import { Skeleton } from '@/components/ui/skeleton.tsx'
+import { StoreProfileDialog } from '@/components/store-profile-dialog'
+import { Skeleton } from '@/components/ui/skeleton'
 
 import { Button } from './ui/button'
 import { Dialog, DialogTrigger } from './ui/dialog'
