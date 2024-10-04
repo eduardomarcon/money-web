@@ -10,7 +10,7 @@ import { MonthlyValuesCard } from '@/pages/app/dashboard/monthly-values-card'
 export function Dashboard() {
   return (
     <>
-      <Helmet title="Dashboard" />
+      <Helmet title="dashboard" />
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl font-bold tracking-tight">dashboard</h1>
 
