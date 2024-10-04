@@ -1,11 +1,24 @@
-import { Search, X } from 'lucide-react'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
+import { Search, Trash } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { FinanceDetails } from '@/pages/app/finances/finance-details'
 
-export function FinanceTableRow() {
+interface FinanceTableRowProps {
+  transaction: {
+    transactionId: string
+    createdAt: Date
+    status: 'incoming' | 'debt'
+    userName: string
+    total: number
+    description: string
+  }
+}
+
+export function FinanceTableRow({ transaction }: FinanceTableRowProps) {
   return (
     <TableRow>
       <TableCell>
@@ -19,12 +32,23 @@ export function FinanceTableRow() {
           <FinanceDetails />
         </Dialog>
       </TableCell>
-      <TableCell className="font-medium">R$ 45,90</TableCell>
-      <TableCell className="font-medium">john doe</TableCell>
+      <TableCell
+        className={`font-medium text-${transaction.status === 'incoming' ? 'green' : 'red'}-400`}
+      >
+        {transaction.total.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        })}
+      </TableCell>
+      <TableCell className="font-medium">
+        {format(transaction.createdAt, 'eeeeee - dd MMM HH:mm', {
+          locale: ptBR,
+        })}
+      </TableCell>
+      <TableCell className="font-medium">{transaction.description}</TableCell>
       <TableCell>
-        <Button variant="ghost" size="xs">
-          <X className="mr-2 h-3 w-3" />
-          delete
+        <Button variant="destructive" size="sm">
+          <Trash className="h-3 w-3" size={16} />
         </Button>
       </TableCell>
     </TableRow>

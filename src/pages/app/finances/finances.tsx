@@ -1,5 +1,7 @@
+import { useQuery } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 
+import { getTransactions } from '@/api/get-transactions.ts'
 import { Pagination } from '@/components/pagination'
 import {
   Table,
@@ -12,6 +14,11 @@ import { FinanceTableFilters } from '@/pages/app/finances/finance-table-filters'
 import { FinanceTableRow } from '@/pages/app/finances/finance-table-row'
 
 export function Finances() {
+  const { data: result } = useQuery({
+    queryKey: ['orders'],
+    queryFn: getTransactions,
+  })
+
   return (
     <>
       <Helmet title="finances" />
@@ -25,16 +32,21 @@ export function Finances() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[64px]"></TableHead>
-                  <TableHead className="w-[140px]">value</TableHead>
-                  <TableHead>user</TableHead>
-                  <TableHead className="w-[132px]"></TableHead>
+                  <TableHead className="w-[100px]"></TableHead>
+                  <TableHead className="w-[200px]">value</TableHead>
+                  <TableHead className="w-[200px]">date</TableHead>
+                  <TableHead>description</TableHead>
+                  <TableHead className="w-[80px]"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Array.from({ length: 10 }).map((_, i) => {
-                  return <FinanceTableRow key={i} />
-                })}
+                {result &&
+                  result.transactions.map((transaction) => (
+                    <FinanceTableRow
+                      key={transaction.transactionId}
+                      transaction={transaction}
+                    />
+                  ))}
               </TableBody>
             </Table>
           </div>
