@@ -18,14 +18,24 @@ import { FinanceTableRow } from '@/pages/app/finances/finance-table-row'
 export function Finances() {
   const [searchParams, setSearchParams] = useSearchParams()
 
+  const transactionId = searchParams.get('transactionId')
+  const userName = searchParams.get('userName')
+  const status = searchParams.get('status')
+
   const pageIndex = z.coerce
     .number()
     .transform((page) => page - 1)
     .parse(searchParams.get('page') ?? '1')
 
   const { data: result } = useQuery({
-    queryKey: ['transactions', pageIndex],
-    queryFn: () => getTransactions({ pageIndex }),
+    queryKey: ['orders', pageIndex, transactionId, userName, status],
+    queryFn: () =>
+      getTransactions({
+        pageIndex,
+        transactionId,
+        userName,
+        status: status === 'all' ? null : status,
+      }),
   })
 
   function handlePaginate(pageIndex: number) {
