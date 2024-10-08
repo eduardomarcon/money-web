@@ -1,7 +1,9 @@
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Search, Trash } from 'lucide-react'
+import { useState } from 'react'
 
+import { TransactionStatus } from '@/components/transaction-status'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
@@ -19,26 +21,33 @@ interface FinanceTableRowProps {
 }
 
 export function FinanceTableRow({ transaction }: FinanceTableRowProps) {
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false)
+
   return (
     <TableRow>
       <TableCell>
-        <Dialog>
+        <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
           <DialogTrigger asChild>
             <Button variant="outline" size="xs">
               <Search className="h-3 w-3" />
               <span className="sr-only">details</span>
             </Button>
           </DialogTrigger>
-          <FinanceDetails />
+          <FinanceDetails
+            open={isDetailsOpen}
+            transactionId={transaction.transactionId}
+          />
         </Dialog>
       </TableCell>
-      <TableCell
-        className={`font-medium text-${transaction.status === 'incoming' ? 'green' : 'red'}-400`}
-      >
-        {transaction.total.toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        })}
+      <TableCell>
+        <div className="flex items-center gap-2">
+          <TransactionStatus status={transaction.status} />
+
+          {transaction.total.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          })}
+        </div>
       </TableCell>
       <TableCell className="font-medium">
         {format(transaction.createdAt, 'eeeeee - dd MMM HH:mm', {
