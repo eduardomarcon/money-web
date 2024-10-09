@@ -28,7 +28,7 @@ export function Finances() {
     .parse(searchParams.get('page') ?? '1')
 
   const { data: result } = useQuery({
-    queryKey: ['orders', pageIndex, transactionId, userName, status],
+    queryKey: ['transactions', pageIndex, transactionId, userName, status],
     queryFn: () =>
       getTransactions({
         pageIndex,
