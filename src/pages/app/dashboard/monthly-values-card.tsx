@@ -1,5 +1,7 @@
+import { useQuery } from '@tanstack/react-query'
 import { DollarSign } from 'lucide-react'
 
+import { getMonthTransactionsAmount } from '@/api/get-month-transactions-amount.ts'
 import {
   Card,
   CardContent,
@@ -8,16 +10,26 @@ import {
 } from '@/components/ui/card.tsx'
 
 export function MonthlyValuesCard() {
+  const { data: monthTransactionsMonth } = useQuery({
+    queryKey: ['metrics', 'month-transactions-amount'],
+    queryFn: () => getMonthTransactionsAmount({}),
+  })
+
   return (
     <Card>
       <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-base font-semibold">
-          total (monthly)
-        </CardTitle>
+        <CardTitle className="text-base font-semibold">month</CardTitle>
         <DollarSign className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="space-y-1">
-        <span className="text-2xl font-bold tracking-tight">R$ 1248,60</span>
+        {monthTransactionsMonth && (
+          <span className="text-2xl font-bold tracking-tight">
+            {(monthTransactionsMonth.amount / 100).toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            })}
+          </span>
+        )}
       </CardContent>
     </Card>
   )
