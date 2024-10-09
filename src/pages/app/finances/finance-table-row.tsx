@@ -1,8 +1,11 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Search, Trash } from 'lucide-react'
 import { useState } from 'react'
 
+import { deleteTransaction } from '@/api/delete-transaction'
+import { GetTransactionsResponse } from '@/api/get-transactions'
 import { TransactionStatus } from '@/components/transaction-status'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
@@ -22,6 +25,31 @@ interface FinanceTableRowProps {
 
 export function FinanceTableRow({ transaction }: FinanceTableRowProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
+
+  const queryClient = useQueryClient()
+
+  const { mutateAsync: deleteTransactionFn } = useMutation({
+    mutationFn: deleteTransaction,
+    async onSuccess(_, { transactionId }) {
+      const transactionsListCache =
+        queryClient.getQueriesData<GetTransactionsResponse>({
+          queryKey: ['transactions'],
+        })
+
+      transactionsListCache.forEach(([cacheKey, cacheData]) => {
+        if (!cacheData) {
+          return
+        }
+
+        queryClient.setQueryData<GetTransactionsResponse>(cacheKey, {
+          ...cacheData,
+          transactions: cacheData.transactions.filter(
+            (transaction) => transaction.transactionId !== transactionId,
+          ),
+        })
+      })
+    },
+  })
 
   return (
     <TableRow>
@@ -57,7 +85,13 @@ export function FinanceTableRow({ transaction }: FinanceTableRowProps) {
       <TableCell className="font-medium">{transaction.description}</TableCell>
       <TableCell>
         <Button variant="destructive" size="sm">
-          <Trash className="h-3 w-3" size={16} />
+          <Trash
+            className="h-3 w-3"
+            onClick={() =>
+              deleteTransactionFn({ transactionId: transaction.transactionId })
+            }
+            size={16}
+          />
         </Button>
       </TableCell>
     </TableRow>
