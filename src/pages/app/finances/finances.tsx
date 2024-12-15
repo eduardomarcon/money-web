@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/table'
 import { FinanceTableFilters } from '@/pages/app/finances/finance-table-filters'
 import { FinanceTableRow } from '@/pages/app/finances/finance-table-row'
+import { FinanceTableSkeleton } from '@/pages/app/finances/finance-table-skeleton.tsx'
 
 export function Finances() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -27,7 +28,7 @@ export function Finances() {
     .transform((page) => page - 1)
     .parse(searchParams.get('page') ?? '1')
 
-  const { data: result } = useQuery({
+  const { data: result, isLoading: isLoadingFinances } = useQuery({
     queryKey: ['transactions', pageIndex, transactionId, userName, status],
     queryFn: () =>
       getTransactions({
@@ -77,6 +78,8 @@ export function Finances() {
               </TableBody>
             </Table>
           </div>
+          {isLoadingFinances && <FinanceTableSkeleton />}
+
           {result && (
             <Pagination
               onPageChange={handlePaginate}

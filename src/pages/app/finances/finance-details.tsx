@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
+import { FinanceDetailsSkeleton } from '@/pages/app/finances/finance-details-skeleton.tsx'
 
 export interface TransactionDetailsProps {
   transactionId: string
@@ -34,7 +35,7 @@ export function FinanceDetails({
         <DialogDescription>transaction details</DialogDescription>
       </DialogHeader>
 
-      {transaction && (
+      {transaction ? (
         <div className="space-y-6">
           <Table>
             <TableBody>
@@ -80,6 +81,8 @@ export function FinanceDetails({
             </TableBody>
           </Table>
         </div>
+      ) : (
+        <FinanceDetailsSkeleton />
       )}
     </DialogContent>
   )
